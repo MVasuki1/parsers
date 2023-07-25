@@ -2,6 +2,7 @@
 import json
 import os
 import time
+from datetime import datetime, timedelta
 import subprocess
 from collections import defaultdict
 index_path = "https://xx0day.com/page/{0}/?filter=latest"
@@ -30,3 +31,8 @@ for i in range(1,11):
 
 with open('out.json', 'w') as f:
     f.write(json.dumps(date_dict))
+
+d = datetime.now() - timedelta(days=1)
+key = "Date: "+ d.strftime("%B %d, %Y")+"\n"
+with open('links', 'w') as f:
+    f.write("\n".join(date_dict[key]))
