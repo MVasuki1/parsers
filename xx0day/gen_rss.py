@@ -25,7 +25,7 @@ break_outer = False
 for i in range(1,8):
     os.system('rm /tmp/index.html*')
     os.system('wget -cq -O /tmp/index.html ' + index_path.format(i))
-    page_links = subprocess.check_output("""cat /tmp/index.html | pup 'div[class="videos-list"] article a attr{href}'""", shell=True).decode().strip().split("\n")
+    page_links = subprocess.check_output("""cat /tmp/index.html | /usr/local/bin/pup 'div[class="videos-list"] article a attr{href}'""", shell=True).decode().strip().split("\n")
     #with open('./page_links.txt', 'a') as f:
     #    f.write("\n".join(page_links) + "\n")
     uptobox_links = []
@@ -33,10 +33,10 @@ for i in range(1,8):
         #uptobox_link = subprocess.check_output("""curl -s "{page_link}" | | grep -op 'https:\/\/uptobox.com/.*?(?=" rel)'""", shell=true).decode().strip()
         os.system('rm /tmp/page.html*')
         os.system('wget -cq -O /tmp/page.html ' + page_link)
-        vid_title = subprocess.check_output("""cat /tmp/page.html | pup 'meta[property="og:title"] attr{content}'""", shell=True).decode().strip().split('\n')[0]
-        published_time_str = subprocess.check_output("""cat /tmp/page.html | pup 'meta[property="article:modified_time"] attr{content}'""", shell=True).decode().strip()
+        vid_title = subprocess.check_output("""cat /tmp/page.html |  /usr/local/bin/pup 'meta[property="og:title"] attr{content}'""", shell=True).decode().strip().split('\n')[0]
+        published_time_str = subprocess.check_output("""cat /tmp/page.html | /usr/local/bin/pup 'meta[property="article:modified_time"] attr{content}'""", shell=True).decode().strip()
         published_time = parser.parse(published_time_str)
-        uptobox_link = subprocess.check_output("""cat /tmp/page.html | pup 'a[id="tracking-url"] attr{href}'""", shell=True).decode().strip()
+        uptobox_link = subprocess.check_output("""cat /tmp/page.html | /usr/local/bin/pup 'a[id="tracking-url"] attr{href}'""", shell=True).decode().strip()
         if published_time < three_hours_ago:
             break_outer = True
             break
